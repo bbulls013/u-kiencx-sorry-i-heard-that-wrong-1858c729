@@ -15,7 +15,11 @@ LINE = (
 
 def main() -> None:
     assert 1 <= len(LINE) <= 140, f"entry line out of gate range: {len(LINE)} chars"
-    out_dir = Path(os.environ.get("OUTPUT_DIR", "."))
+    out_dir = Path(
+        os.environ.get("MAKEFUN_OUTPUT_DIR")
+        or os.environ.get("OUTPUT_DIR")
+        or ("/output" if os.path.isdir("/output") else ".")
+    )
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "entry.txt").write_text(LINE + "\n", encoding="utf-8")
     print(LINE)
